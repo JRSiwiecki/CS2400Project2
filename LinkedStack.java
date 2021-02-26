@@ -37,22 +37,27 @@ public class LinkedStack<T> implements StackInterface<T>
 	@Override
 	public T peek() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (isEmpty())
+		{
+			throw new EmptyStackException();
+		}
+		
+		else
+		{
+			return topNode.getData();
+		}
 	}
 
 	@Override
 	public boolean isEmpty() 
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return topNode == null;
 	}
 
 	@Override
 	public void clear() 
 	{
-		// TODO Auto-generated method stub
-		
+		topNode = null;
 	}
 	
 	/**
