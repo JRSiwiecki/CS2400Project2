@@ -27,8 +27,11 @@ public class LinkedStack<T> implements StackInterface<T>
 	@Override
 	public T pop() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		T top = peek(); // Might throw EmptyStackException
+		// Assertion: topNode != null
+		topNode = topNode.getNextNode();
+		
+		return top;
 	}
 
 	@Override
