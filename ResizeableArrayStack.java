@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.EmptyStackException;
 
 /**
  * 
@@ -34,21 +35,43 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
 	@Override
 	public void push(T newEntry) 
 	{
-		// TODO Auto-generated method stub
+		checkIntegrity();
+		ensureCapacity();
+		stack[topIndex + 1] = newEntry;
+		topIndex++;
 	}
 
 	@Override
 	public T pop() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		checkIntegrity();
+		if (isEmpty())
+		{
+			throw new EmptyStackException();
+		}
+		
+		else
+		{
+			T top = stack[topIndex];
+			stack[topIndex] = null;
+			topIndex--;
+			return top;
+		}
 	}
 
 	@Override
 	public T peek() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		checkIntegrity();
+		if (isEmpty())
+		{
+			throw new EmptyStackException();
+		}
+		
+		else
+		{
+			return stack[topIndex];
+		}
 	}
 
 	@Override
