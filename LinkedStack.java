@@ -1,3 +1,5 @@
+import java.util.EmptyStackException;
+
 /** A class of stacks whose entries are stored in a chain of nodes.
  * 
  * @author Joseph
@@ -8,7 +10,7 @@ public class LinkedStack<T> implements StackInterface<T>
 {
 
 	// references the first node in the chain.
-	private Node topNode;
+	private Node<T> topNode;
 	
 	public LinkedStack()
 	{
@@ -18,16 +20,16 @@ public class LinkedStack<T> implements StackInterface<T>
 	@Override
 	public void push(T newEntry) 
 	{
-		Node newNode = new Node(newEntry, topNode);
+		Node<T> newNode = new Node<T>(newEntry, topNode);
 		topNode = newNode;
-		//topNode = new Node(newEntry, topNode); // Alternate code
-		
+		//topNode = new Node(newEntry, topNode); // Alternate code	
 	}
 
 	@Override
 	public T pop() 
 	{
 		T top = peek(); // Might throw EmptyStackException
+		
 		// Assertion: topNode != null
 		topNode = topNode.getNextNode();
 		
@@ -44,7 +46,7 @@ public class LinkedStack<T> implements StackInterface<T>
 		
 		else
 		{
-			return topNode.getData();
+			return (T) topNode.getData();
 		}
 	}
 
@@ -107,7 +109,8 @@ public class LinkedStack<T> implements StackInterface<T>
          * Setter function to set the entry.
          * @param newData The entry.
          */
-        private void setData(T newData)
+        @SuppressWarnings("unused")
+		private void setData(T newData)
         {
             data = newData;
         }

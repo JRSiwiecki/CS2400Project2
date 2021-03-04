@@ -77,14 +77,23 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
 	@Override
 	public boolean isEmpty() 
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return topIndex < 0;
 	}
 
 	@Override
 	public void clear() 
 	{
-		// TODO Auto-generated method stub
+		checkIntegrity();
+		
+		// Remove references to the objects in the stack
+		// but do not deallocate the array
+		while (topIndex > -1)
+		{
+			stack[topIndex] = null;
+			topIndex--;
+		}
+		
+		// Assertion: topIndex is -1
 		
 	}
 	
