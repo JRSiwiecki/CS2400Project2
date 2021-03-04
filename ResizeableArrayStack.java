@@ -65,9 +65,11 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
 		
 	}
 	
+	/**
+	 * If the array is full, double its size.
+	 */
 	private void ensureCapacity()
 	{
-		// If array is full, double its size
 		if (topIndex >= stack.length - 1)
 		{
 			int newLength = 2 * stack.length;
