@@ -1,3 +1,8 @@
+/*
+ * Student Name: Joseph Siwiecki
+ * Class Section: CS 2400.04
+ */
+
 import java.util.EmptyStackException;
 
 /** A class of stacks whose entries are stored in a chain of nodes.
@@ -60,6 +65,70 @@ public class LinkedStack<T> implements StackInterface<T>
 	public void clear() 
 	{
 		topNode = null;
+	}
+	
+	/**
+	 * Converts an infix expression to an equivalent postfix expression.
+	 * operatorStack = A new empty stack.
+	 * postfix = A new empty string.
+	 * @param infix The infix expression.
+	 * @return The postfix expression.
+	 */
+	public String convertToPostfix(String infix)
+	{
+		LinkedStack<String> operatorStack = new LinkedStack<String>();
+		LinkedStack<String> topOperator = new LinkedStack<String>();
+		
+		String postfix = "";			
+		
+		for (int i = 0; i < infix.length(); i++)
+		{
+			char nextCharacter = infix.charAt(i);
+			
+			if (((nextCharacter > 'a') && (nextCharacter < 'z')) || ((nextCharacter > 'A') && (nextCharacter < 'Z')))
+			{
+				postfix += nextCharacter;
+			}
+					
+			switch(nextCharacter)
+			{
+				case '^':
+					operatorStack.push(String.valueOf(nextCharacter));
+					break;
+				
+				case '+': case '-': case '*': case '/':
+					while (!operatorStack.isEmpty()) // TODO: also need to have precedence of nextCharacter <= precedence of operatorStack.peek() in the while loop condition...
+					{
+						postfix += operatorStack.peek();
+						operatorStack.pop();
+					}
+					operatorStack.push(String.valueOf(nextCharacter));
+					break;
+				
+				case '(':
+					operatorStack.push(String.valueOf(nextCharacter));
+					break;
+				
+				case ')': // Stack is not empty if infix expression is valid
+					topOperator.push(operatorStack.pop());
+					while (topOperator.peek() != "(")
+					{
+						postfix += topOperator;
+						topOperator.push(operatorStack.pop());
+					}
+					break;
+					
+				default: break; // Ignore unexpected characters	
+			}
+			
+			while (!operatorStack.isEmpty())
+			{
+				topOperator.push(operatorStack.pop());
+				postfix += topOperator;
+			}
+		}
+		
+		return postfix;
 	}
 	
 	/**

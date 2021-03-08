@@ -1,3 +1,8 @@
+/*
+ * Student Name: Joseph Siwiecki
+ * Class Section: CS 2400.04
+ */
+
 import java.util.Arrays;
 import java.util.EmptyStackException;
 
@@ -133,5 +138,38 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
                                         "capacity exceeds allowed " +
                                         "maximum of " + MAX_CAPACITY);
         }
+    }
+    
+    /**
+     * Evaluates a postfix expression.
+     * @param postfix The expression.
+     * @return The result of the expression.
+     */
+    public String evaluatePostfix(String postfix)
+    {
+    	ResizeableArrayStack<String> valueStack = new ResizeableArrayStack<String>();
+    	
+    	for (int i = 0; i < postfix.length(); i++)
+    	{
+    		char nextCharacter = postfix.charAt(i);
+    		
+    		if (((nextCharacter > 'a') && (nextCharacter < 'z')) || ((nextCharacter > 'A') && (nextCharacter < 'Z')))
+			{
+				valueStack.push(String.valueOf(nextCharacter));
+			}
+    		
+    		switch (nextCharacter)
+    		{
+    			case '+': case '-': case '*': case '/': case '^':
+    				String operandTwo = valueStack.pop();
+    				String operandOne = valueStack.pop();
+    				String result = operandOne + nextCharacter + operandTwo;
+    				valueStack.push(result);
+    				break;
+    				
+    			default: break; // Ignore unexpected characters
+    		}	
+    	}
+    	return valueStack.peek();
     }
 }
