@@ -157,45 +157,59 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
         { 
             char nextCharacter = postfix.charAt(i); 
               
-            // If the scanned character is an integer, 
+            // If nextCharacter is an integer, 
             // push it to the stack. 
-            if(Character.isDigit(nextCharacter)) 
+            if (Character.isDigit(nextCharacter)) 
             {
             	valueStack.push(nextCharacter - '0'); 
             }
-            	
-              
+                      
             //  If the character is an operator, pop the last two 
             //  elements from stack and apply the operator 
             else
             { 
-                int operandOne = valueStack.pop(); 
-                int operandTwo = valueStack.pop(); 
+                // declare them but don't initialize,
+            	// because if the nextCharacter is a space after a number
+            	// there is a chance that there will not be 
+            	// two operands yet, and so we will get an
+            	// EmptyStackException, which is bad!
+            	int operandOne; 
+                int operandTwo;
                   
                 switch(nextCharacter) 
                 { 
                     // addition
                 	case '+': 
-                    	valueStack.push(operandTwo + operandOne); 
+                		operandOne = valueStack.pop(); 
+                		operandTwo = valueStack.pop(); 
+                		valueStack.push(operandTwo + operandOne); 
                     	break; 
                       
                     // subtraction
                 	case '-': 
-                    	valueStack.push(operandTwo - operandOne); 
+                		operandOne = valueStack.pop(); 
+                		operandTwo = valueStack.pop(); 
+                		valueStack.push(operandTwo - operandOne); 
                     	break; 
                       
                     // division
                 	case '/': 
-                    	valueStack.push(operandTwo / operandOne); 
+                		operandOne = valueStack.pop(); 
+                		operandTwo = valueStack.pop(); 
+                		valueStack.push(operandTwo / operandOne); 
                     	break; 
                       
                     // multiplication
                 	case '*': 
-                    	valueStack.push(operandTwo * operandOne); 
+                		operandOne = valueStack.pop(); 
+                		operandTwo = valueStack.pop(); 
+                		valueStack.push(operandTwo * operandOne); 
                     	break; 
                     
                     // exponentiation
                 	case '^':
+                		operandOne = valueStack.pop(); 
+                		operandTwo = valueStack.pop(); 
                 		// cast to int since power function returns a double
                 		valueStack.push((int) Math.pow(operandTwo, operandOne));
                 		break;
