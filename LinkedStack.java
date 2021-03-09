@@ -76,59 +76,66 @@ public class LinkedStack<T> implements StackInterface<T>
 	 */
 	public String convertToPostfix(String infix)
 	{
-		LinkedStack<String> operatorStack = new LinkedStack<String>();
-		LinkedStack<String> topOperator = new LinkedStack<String>();
+		// string that will hold the postfix expression
+		String result = "";
 		
-		String postfix = "";			
+		// empty LinkedStack
+		LinkedStack<Character> stack = new LinkedStack<Character>();
 		
 		for (int i = 0; i < infix.length(); i++)
 		{
 			char nextCharacter = infix.charAt(i);
 			
-			if (((nextCharacter > 'a') && (nextCharacter < 'z')) || ((nextCharacter > 'A') && (nextCharacter < 'Z')))
+			// If nextCharacter is an operand
+			// add it to the output
+			if (Character.isLetterOrDigit(nextCharacter))
 			{
-				postfix += nextCharacter;
-			}
-					
-			switch(nextCharacter)
-			{
-				case '^':
-					operatorStack.push(String.valueOf(nextCharacter));
-					break;
-				
-				case '+': case '-': case '*': case '/':
-					while (!operatorStack.isEmpty()) // TODO: also need to have precedence of nextCharacter <= precedence of operatorStack.peek() in the while loop condition...
-					{
-						postfix += operatorStack.peek();
-						operatorStack.pop();
-					}
-					operatorStack.push(String.valueOf(nextCharacter));
-					break;
-				
-				case '(':
-					operatorStack.push(String.valueOf(nextCharacter));
-					break;
-				
-				case ')': // Stack is not empty if infix expression is valid
-					topOperator.push(operatorStack.pop());
-					while (topOperator.peek() != "(")
-					{
-						postfix += topOperator;
-						topOperator.push(operatorStack.pop());
-					}
-					break;
-					
-				default: break; // Ignore unexpected characters	
+				result += nextCharacter;
 			}
 			
-			while (!operatorStack.isEmpty())
+			// If nextCharacter is a '('
+			// add it to the stack
+			else if (nextCharacter == '(')
 			{
-				topOperator.push(operatorStack.pop());
-				postfix += topOperator;
+				stack.push(nextCharacter);
+			}
+			
+			// If nextCharacter is a ')'
+			// pop and output from the stack
+			// until the next '(' is found
+			else if (nextCharacter == ')')
+			{
+				while (!stack.isEmpty() && stack.peek() != '(')
+				{
+					result += stack.pop();
+				}
+				
+				stack.pop();
+			}
+			
+			else
+			{
+				while (!stack.isEmpty() && precedence(nextCharacter) <= precedence(stack.peek()))
+				{
+					result += stack.pop();
+				}
+				
+				stack.push(nextCharacter);
 			}
 		}
 		
-		return postfix;
+		// pop all the operators from the stack
+		while (!stack.isEmpty())
+		{
+			if (stack.peek() == '(')
+			{
+				return "Invalid Expression";
+			}
+			
+			result += stack.pop();
+		}
+		
+		return result;
 	}
 	
 	/**
