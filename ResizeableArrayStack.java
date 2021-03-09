@@ -6,10 +6,10 @@
 import java.util.Arrays;
 import java.util.EmptyStackException;
 
-/**
+/** An implentation of the StackInterface using a resizeable array.
  * 
  * @author Joseph
- * An implentation of the StackInterface using a resizeable array.
+ * 
  */
 public class ResizeableArrayStack<T> implements StackInterface<T>
 {
@@ -146,6 +146,7 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
      * Evaluates a postfix expression.
      * @param postfix The expression.
      * @return The result of the expression.
+     * Pre-Condition: The postfix expression must not contain multi-digit numbers.
      */  
     public int evaluatePostfix(String postfix) 
     { 

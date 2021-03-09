@@ -1,7 +1,12 @@
-/**
+/*
+ * Student Name: Joseph Siwiecki
+ * Class Section: CS 2400.04
+ */
+
+/** An interface for the ADT stack.
  * 
  * @author Joseph
- * An interface for the ADT stack.
+ * 
  */
 public interface StackInterface<T>
 {
