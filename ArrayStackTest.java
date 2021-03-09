@@ -6,6 +6,11 @@
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
 
+/** Test class using JUnit to test ResizeableArrayStack methods.
+ * 
+ * @author Joseph
+ *
+ */
 public class ArrayStackTest 
 {
 	public static void main(String[] args)

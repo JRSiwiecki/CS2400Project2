@@ -9,7 +9,6 @@ import java.util.EmptyStackException;
  * 
  * @author Joseph
  * 
- * @param <T>
  */
 public class LinkedStack<T> implements StackInterface<T>
 {

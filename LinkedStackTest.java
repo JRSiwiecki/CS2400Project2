@@ -6,6 +6,11 @@
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
 
+/** Test class using JUnit to test LinkedStack methods.
+ * 
+ * @author Joseph
+ *
+ */
 public class LinkedStackTest 
 {
 	public static void main(String[] args)
