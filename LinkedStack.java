@@ -132,6 +132,29 @@ public class LinkedStack<T> implements StackInterface<T>
 	}
 	
 	/**
+	 * Function used to show which operator
+	 * takes higher precendence.
+	 * @param c The operator.
+	 * @return The precedence the operator has.
+	 */
+	private static int precedence(char c)
+	{
+		switch (c)
+		{
+			case '+': case '-': 
+				return 1;
+			
+			case '*': case '/':
+				return 2;
+				
+			case '^':
+				return 3;
+		}
+		
+		return -1;
+	}
+	
+	/**
      * Nodes representing entries in the linked bag.
      * @param <T> The entry datatype.
      */
