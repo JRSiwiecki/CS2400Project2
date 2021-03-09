@@ -113,6 +113,13 @@ public class LinkedStack<T> implements StackInterface<T>
 				stack.pop();
 			}
 			
+			// If nextCharacter is a space
+			// then just go to the next character.
+			else if (nextCharacter == ' ')
+			{
+				continue;
+			}
+			
 			else
 			{
 				while (!stack.isEmpty() && precedence(nextCharacter) <= precedence(stack.peek()))
