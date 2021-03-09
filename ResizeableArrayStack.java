@@ -50,6 +50,7 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
 	public T pop() 
 	{
 		checkIntegrity();
+		
 		if (isEmpty())
 		{
 			throw new EmptyStackException();
@@ -68,6 +69,7 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
 	public T peek() 
 	{
 		checkIntegrity();
+		
 		if (isEmpty())
 		{
 			throw new EmptyStackException();
@@ -144,32 +146,69 @@ public class ResizeableArrayStack<T> implements StackInterface<T>
      * Evaluates a postfix expression.
      * @param postfix The expression.
      * @return The result of the expression.
-     */
-    public String evaluatePostfix(String postfix)
-    {
-    	ResizeableArrayStack<String> valueStack = new ResizeableArrayStack<String>();
-    	
-    	for (int i = 0; i < postfix.length(); i++)
-    	{
-    		char nextCharacter = postfix.charAt(i);
-    		
-    		if (((nextCharacter > 'a') && (nextCharacter < 'z')) || ((nextCharacter > 'A') && (nextCharacter < 'Z')))
-			{
-				valueStack.push(String.valueOf(nextCharacter));
-			}
-    		
-    		switch (nextCharacter)
-    		{
-    			case '+': case '-': case '*': case '/': case '^':
-    				String operandTwo = valueStack.pop();
-    				String operandOne = valueStack.pop();
-    				String result = operandOne + nextCharacter + operandTwo;
-    				valueStack.push(result);
-    				break;
-    				
-    			default: break; // Ignore unexpected characters
-    		}	
-    	}
-    	return valueStack.peek();
-    }
+     */  
+    public int evaluatePostfix(String postfix) 
+    { 
+        // Create a ResizeableArrayStack
+        ResizeableArrayStack<Integer> valueStack = new ResizeableArrayStack<>(); 
+          
+        // Scan all characters of postfix individually
+        for (int i = 0; i < postfix.length(); i++) 
+        { 
+            char nextCharacter = postfix.charAt(i); 
+              
+            // If the scanned character is an integer, 
+            // push it to the stack. 
+            if(Character.isDigit(nextCharacter)) 
+            {
+            	valueStack.push(nextCharacter - '0'); 
+            }
+            	
+              
+            //  If the character is an operator, pop the last two 
+            //  elements from stack and apply the operator 
+            else
+            { 
+                int operandOne = valueStack.pop(); 
+                int operandTwo = valueStack.pop(); 
+                  
+                switch(nextCharacter) 
+                { 
+                    // addition
+                	case '+': 
+                    	valueStack.push(operandTwo + operandOne); 
+                    	break; 
+                      
+                    // subtraction
+                	case '-': 
+                    	valueStack.push(operandTwo - operandOne); 
+                    	break; 
+                      
+                    // division
+                	case '/': 
+                    	valueStack.push(operandTwo / operandOne); 
+                    	break; 
+                      
+                    // multiplication
+                	case '*': 
+                    	valueStack.push(operandTwo * operandOne); 
+                    	break; 
+                    
+                    // exponentiation
+                	case '^':
+                		// cast to int since power function returns a double
+                		valueStack.push((int) Math.pow(operandTwo, operandOne));
+                		break;
+                		
+                	// ignore unexpected characters
+                	default: 
+                		break; 
+              } 
+            } 
+        } 
+        // pop instead of peek in case we use this
+        // instance of the stack again, so that way
+        // the stack will be empty ready for use again
+        return valueStack.pop();     
+    } 
 }
